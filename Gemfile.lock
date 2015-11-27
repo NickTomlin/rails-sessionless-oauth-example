@@ -37,12 +37,18 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    bcrypt (3.1.10)
     builder (3.2.2)
     erubis (2.7.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
     json (1.8.3)
+    jwt (1.5.2)
+    knock (1.3.0)
+      bcrypt (~> 3.1)
+      jwt (~> 1.5)
+      rails (~> 4.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -100,6 +106,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
+  knock
   rails (= 4.2.4)
   rails-api
   spring

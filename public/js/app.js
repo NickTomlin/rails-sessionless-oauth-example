@@ -7,7 +7,7 @@ var token;
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  fetch('/auth/dangerously_basic_auth', {
+  fetch('/knock/auth_token', {
     method: 'POST',
     body: new FormData(form)
   })

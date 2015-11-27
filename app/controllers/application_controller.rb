@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  # we should authenticate here
+  include Knock::Authenticable
 
   def check_token
   end
