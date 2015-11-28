@@ -19,7 +19,7 @@ Knock.setup do |config|
   ## permitted values in the controller.
   ##
   ## Default:
-  # self.current_user_from_handle = -> (handle) { User.find_by! Knock.handle_attr => handle }
+  config.current_user_from_handle = -> (handle) { User.find_by! Knock.handle_attr => handle }
 
   ## Current user retrieval when validating token
   ## --------------------------------------------
@@ -29,8 +29,7 @@ Knock.setup do |config|
   ## the user_id is stored in the 'sub' claim.
   ##
   ## Default:
-  # config.current_user_from_token = -> (claims) { User.find claims['sub'] }
-
+  config.current_user_from_token = -> (claims) { Rails.logger.info "Current_user_from_token #{claims}"; User.find_by authorization_id: claims['sub'] }
 
   ## Expiration claim
   ## ----------------
@@ -51,7 +50,7 @@ Knock.setup do |config|
   # config.token_audience = nil
 
   ## If using Auth0, uncomment the line below
-  # config.token_audience = -> { Rails.application.secrets.auth0_client_id }
+  config.token_audience = -> { Rails.application.secrets.auth0_client_id }
 
 
   ## Signature key
@@ -63,6 +62,5 @@ Knock.setup do |config|
   # config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }
 
   ## If using Auth0, uncomment the line below
-  # config.token_secret_signature_key = -> { JWT.base64url_decode Rails.application.secrets.auth0_client_secret }
-
+  config.token_secret_signature_key = -> { Rails.logger.info "Decoding token"; JWT.base64url_decode Rails.application.secrets.auth0_client_secret }
 end

@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
   <h1>Sessionless Auth</h1>
   <form id="login">
     <label for="username">
-      <input type="text" name="email" id="email" value="test@user.com">
+      <input type="text" name="auth" id="email" value="test@user.com">
     </label>
 
     <label for="password">
@@ -18,11 +19,20 @@
     <button type="submit">Submit</button>
   </form>
 
+  <p>
+    Oauth Login:
+    <input id="btn-login" class="btn-login" type="submit" />
+  </p>
+
+  <p>Name: <span id="name"></span></p>
+
   <hr>
+
 
   <p>Auth Status: <span id="auth-status">Unauthenticated</span></p>
   <button id="api-request">Make an api request</button>
   <code><pre id="api-request-result">Results from an api request</pre></code>
+  <script src="//cdn.auth0.com/js/lock-7.9.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
