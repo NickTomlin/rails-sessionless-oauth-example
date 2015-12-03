@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117235420) do
+ActiveRecord::Schema.define(version: 20151117235412) do
 
   create_table "authorizations", force: :cascade do |t|
     t.string   "provider"
+    t.integer  "user_id"
     t.string   "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -23,13 +24,13 @@ ActiveRecord::Schema.define(version: 20151117235420) do
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "email"
-    t.string   "password"
-    t.string   "password_digest"
-    t.integer  "authorization_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "display_name"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
-  add_index "users", ["authorization_id"], name: "index_users_on_authorization_id"
+  add_index "users", ["authorizations_id"], name: "index_users_on_authorizations_id"
 
 end
