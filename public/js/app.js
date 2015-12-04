@@ -1,10 +1,30 @@
-var lock = new Auth0Lock('trZt8y3wMEf8WenAwcrmNLGKLh0d3nkT', 'therotation.auth0.com')
 var apiRequestButton = document.querySelector('#api-request')
 var apiRequestResult = document.querySelector('#api-request-result')
 var authStatus = document.querySelector('#auth-status')
-var logoutButton = document.querySelector('#logout');
+var logoutButton = document.querySelector('#logout')
 
-function authenticate (data) {
+function authenticate () {
+  return new Promise((resolve, reject) => {
+    var savedToken = localStorage.getItem('id_token')
+    var results = window.location.hash.split(/#?auth_token=/)
+    var hashToken = results && results[1]
+
+    if (hashToken) {
+      window.location.hash = ''
+    }
+
+    if (savedToken) {
+      return resolve(savedToken)
+    }
+
+    if (hashToken) {
+      resolve(hashToken)
+    }
+  })
+}
+
+function authenticatedState (token) {
+  localStorage.setItem('id_token', token)
   authStatus.textContent = 'Authenticated'
   logoutButton.style.display = 'block'
 }
@@ -15,7 +35,7 @@ function logout () {
 }
 
 function apiRequest () {
-  var id_token = localStorage.getItem('id_token') || '';
+  var id_token = localStorage.getItem('id_token') || ''
 
   fetch('/api/status', {
     headers: {
@@ -25,12 +45,6 @@ function apiRequest () {
     cache: false
   })
   .then((response) => {
-    if (!response.ok) {
-      console.log('API REQUEST NOT OKAY')
-    } else {
-      console.log('Api Request Okay')
-    }
-
     response
     .text()
     .then((text) => {
@@ -39,37 +53,8 @@ function apiRequest () {
   })
 }
 
-function initializeAuth () {
-  // if we are following a redirect
-  var hash = lock.parseHash(window.location.hash)
-
-  if (hash && hash.id_token) {
-    //save the token in the session:
-    localStorage.setItem('id_token', hash.id_token)
-  }
-
-  if (hash && hash.error) {
-    alert('There was an error: ' + hash.error + '\n' + hash.error_description)
-  }
-
-  var id_token = localStorage.getItem('id_token')
-  if (id_token) {
-    lock.getProfile(id_token, function (err, profile) {
-      console.log(profile);
-      if (err) {
-        return alert('There was an error geting the profile: ' + err.message)
-      }
-      document.getElementById('name').textContent = profile.name
-      authenticate({token: id_token})
-    })
-  }
-}
-
-
 logoutButton.addEventListener('click', logout)
 apiRequestButton.addEventListener('click', apiRequest)
-document.getElementById('btn-login').addEventListener('click', function() {
-  lock.show({ authParams: { scope: 'openid'  }  })
-})
 
-initializeAuth()
+authenticate()
+  .then(authenticatedState)

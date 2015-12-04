@@ -11,8 +11,11 @@ class AuthGoogleController < ApplicationController
       display_name: user.display_name
     })
 
-    # we can either redirect with the token in a query param
-    # or respond with it (in an ajaxy setting)
-    render json: { token: auth_token.token }
+    if request.xhr?
+      render json: { token: auth_token.token }
+    else
+      # TODO: is there a cleaner way to handle this? e.g. using a helper
+      redirect_to "/#auth_token=#{auth_token.token}"
+    end
   end
 end
