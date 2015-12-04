@@ -1,5 +1,4 @@
 require "oauth2"
-require "securerandom"
 
 class Auth::GoogleOauth
   def initialize(client_id, client_secret, options = {})

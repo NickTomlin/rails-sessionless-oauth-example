@@ -72,8 +72,13 @@ class AuthGoogleController < ApplicationController
     # and grab the user data
     auth_data = super
     user = User.from_authorization(:google, auth_data)
-    # create a token for the application
-    # attach user data to token
-    render json: { user: user.to_json }
+    auth_token = AuthToken.new(payload: {
+      user_id: user.id,
+      display_name: user.display_name
+    })
+
+    # we can either redirect with the token in a query param
+    # or respond with it (in an ajaxy setting)
+    render json: { token: auth_token.token }
   end
 end
