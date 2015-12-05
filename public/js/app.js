@@ -4,6 +4,7 @@ var authStatus = document.querySelector('#auth-status')
 var logoutButton = document.querySelector('#logout')
 
 function authenticatedState (userData) {
+  document.querySelector('#name').textContent = userData.display_name
   authStatus.textContent = 'Authenticated'
   logoutButton.style.display = 'block'
 }
