@@ -22,6 +22,6 @@ module Authenticator
     token = request.headers['Authorization'].split(' ').last
     payload = AuthToken.new(token: token).payload
 
-    @current_user = User.find(payload["user_id"])
+    @current_user = User.find(payload.fetch("user", {})["user_id"])
   end
 end

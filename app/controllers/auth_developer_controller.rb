@@ -1,11 +1,10 @@
-class AuthGoogleController < ApplicationController
-  include Authority::Google::ControllerMethods
+class AuthDeveloperController < ApplicationController
+  def init
+    redirect_to "/auth/developer/callback"
+  end
 
   def callback
-    # Authority will make the OAuth exchange for us
-    # and grab the user data
-    auth_data = super
-    user = User.from_authorization(:google, auth_data)
+    user = User.first
     auth_token = AuthToken.new(payload: {
       user: {
         user_id: user.id,
