@@ -9,7 +9,7 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
 
   test "allows requests with a valid token" do
     user = FactoryGirl.create(:user)
-    auth_token = AuthToken.new(payload: {user_id: user.id})
+    auth_token = AuthToken.new(payload: {user: {user_id: user.id}})
 
     get "/api/status", {}, {:"Authorization" => "Bearer #{auth_token.token}"}
 

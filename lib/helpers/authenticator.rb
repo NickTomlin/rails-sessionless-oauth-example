@@ -14,14 +14,17 @@ module Authenticator
     end
   end
 
+  def fetch_user(token_payload)
+    User.find(token_payload.fetch("user", {})["user_id"])
+  end
+
   private
 
   def user_from_token!
     raise "No authorization header provided" if request.headers['Authorization'].empty?
 
     token = request.headers['Authorization'].split(' ').last
-    payload = AuthToken.new(token: token).payload
-
-    @current_user = User.find(payload.fetch("user", {})["user_id"])
+    token_payload = AuthToken.new(token: token).payload
+    @current_user = fetch_user(token_payload)
   end
 end
