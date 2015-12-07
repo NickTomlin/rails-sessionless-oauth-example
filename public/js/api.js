@@ -1,4 +1,6 @@
-function apiRequest () {
+var apiRequestResult = document.querySelector('#api-request-result')
+
+export function apiRequest () {
   var id_token = localStorage.getItem('id_token') || ''
 
   fetch('/api/status', {
