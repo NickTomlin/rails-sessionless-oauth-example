@@ -31,7 +31,7 @@ module Authority
         id = Rails.application.secrets.google_client_id
         secret = Rails.application.secrets.google_client_secret
         # this should be abstracted out for different providers?
-        auth = Auth::GoogleOauth.new(id, secret, {callback_url: 'http://localhost:3050/auth/google/callback', scope: 'profile email'})
+        auth = Auth::GoogleOauth.new(id, secret, {callback_url: Rails.application.secrets.google_callback_url, scope: 'profile email'})
         redirect_to auth.authorize_url
       end
     end
@@ -52,7 +52,7 @@ module Authority
         # exchange code with provider
         id = Rails.application.secrets.google_client_id
         secret = Rails.application.secrets.google_client_secret
-        auth = Auth::GoogleOauth.new(id, secret, {callback_url: 'http://localhost:3050/auth/google/callback', scope: 'profile email'})
+        auth = Auth::GoogleOauth.new(id, secret, {callback_url: Rails.application.secrets.google_callback_url, scope: 'profile email'})
         auth.get_token(code).to_hash[:access_token]
       end
 
