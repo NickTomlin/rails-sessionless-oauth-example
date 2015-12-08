@@ -3,17 +3,23 @@ import {default as decodeJwt} from 'jwt-decode';
 // the implementor should be in charge of storing the token
 
 export function initAuth () {
-  console.log('creating frame');
   let frame = document.createElement('iframe')
-  frame.src = 'http://localhost:3061/developer-oauth-frame.html?client_id="developer"'
+  frame.src = 'http://localhost:3060/?client_id="developer"'
 
   // we need to listen for the frame, which is going to eventually
   // post message a token out that we can exchange with our server
-  frame.addEventListener('message', (e) => {
-    console.log('we had a message from the frame');
-  });
+  window.addEventListener('message', (e) => {
+    console.log('we received a postMessage', e)
+  })
 
   document.body.appendChild(frame)
+
+  frame.addEventListener('load', function () {
+    frame.contentWindow.postMessage('parent dawg', 'http://localhost:3060')
+    frame.addEventListener('message', function (e) {
+      console.log('frame message', e);
+    })
+  })
 }
 
 export function authenticate () {

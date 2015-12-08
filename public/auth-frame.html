@@ -1,0 +1,10 @@
+<script>
+// we've handled the redirect from the external oauth provider to our backend callback route
+// and ended up on this page with a token in the hash
+// we will grab that token and postMessage it out to our parent
+
+// how do we know who our parent is though?
+window.addEventListener('message', function (e) {
+  e.source.postMessage('hi again', 'http://localhost:3050')
+});
+</script>
